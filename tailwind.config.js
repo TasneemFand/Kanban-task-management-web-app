@@ -31,6 +31,8 @@ module.exports = {
         purple_superLight: "#635fc71a",
         almost_Dark: "#20212C",
         almost_White: "#F4F7FD",
+        _red: "#EA5555",
+        light_Red: "#FF9898",
         secondary: {
           DEFAULT: "hsl(var(--secondary))",
           foreground: "hsl(var(--secondary-foreground))",
