@@ -3,14 +3,18 @@ import Image from "next/image";
 import getBoards from "@/app/actions/getBoards";
 import { PopoverMenu } from "./PopOverMenu";
 import { HeaderActions } from "./HeaderActions";
+import getColumns from "@/app/actions/getColumns";
+import getCurrentUser from "@/app/actions/getCurrentUser";
 
 type TProps = {
   boardName: string;
-  currentUser: string;
 };
 
-export const BoardHeader = async ({ boardName, currentUser }: TProps) => {
-  const boards = await getBoards({ userId: currentUser });
+export const BoardHeader = async ({ boardName }: TProps) => {
+  const currentUser = await getCurrentUser();
+  const boards = await getBoards({ userId: currentUser?.id });
+  const currentBoardId = boards?.filter((board) => board.name === boardName)?.[0].id;
+  const cols = await getColumns({boardId: currentBoardId });
 
   return (
     <div className="flex items-center p-6 gap-4 w-full max-sm:py-6 max-sm:px-2 max-sm:gap-2 max-[360px]:flex-col">
@@ -30,7 +34,7 @@ export const BoardHeader = async ({ boardName, currentUser }: TProps) => {
         </span>
       </p>
       <div className="ml-auto flex items-center max-[360px]:ml-0">
-        <HeaderActions />
+        <HeaderActions  cols={cols} />
       </div>
     </div>
   );

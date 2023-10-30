@@ -29,7 +29,7 @@ const BoardIdLayout = async ({
   return (
     <>
       <header className="flex border-b z-20 sticky top-0 bg-white border-border_lightBlue dark:bg-dark_Gray dark:border-border_mediumGray">
-        <BoardHeader boardName={board.name} currentUser={currentUser.id} />
+        <BoardHeader boardName={board.name} />
       </header>
       <main>{children}</main>
     </>

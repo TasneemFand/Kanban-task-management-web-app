@@ -1,10 +1,12 @@
+import { SafeCols } from "@/types";
 import { create } from "zustand";
 
-export type ModalType =  'createNewBoard';
+export type ModalType =  'createNewBoard' | 'createNewTask' | 'editBoard' | 'deleteBoard';
 
 interface ModalData {
 	apiUrl?: string;
 	query?: Record<string, any>;
+	cols?: SafeCols[] | null;
 }
 interface ModalStore {
 	type: ModalType | null;

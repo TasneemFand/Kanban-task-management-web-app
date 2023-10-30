@@ -1,4 +1,4 @@
-import { Board, User } from "@prisma/client";
+import { Board, Column, User } from "@prisma/client";
 
 export type SafeUser = Omit<
   User,
@@ -14,10 +14,12 @@ export type Columns = {
   value: string;
 };
 
-export type SafeBoard = Omit<
-  Board,
-  "createdAt" | "updatedAt"
-> & {
+export type SafeBoard = Omit<Board, "createdAt" | "updatedAt"> & {
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type SafeCols = Omit<Column, "createdAt" | "updatedAt"> & {
   createdAt: string;
   updatedAt: string;
 };

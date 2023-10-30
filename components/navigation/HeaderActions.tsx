@@ -10,19 +10,23 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
+import { SafeCols } from "@/types";
 
-export const HeaderActions = () => {
+type TProps = {
+    cols: SafeCols[] | null;
+}
+export const HeaderActions = ({cols}: TProps) => {
   const { onOpen } = useModal();
   return (
     <>
       <Button
-        onClick={() => onOpen("createNewTask")}
+        onClick={() => onOpen("createNewTask", {cols})}
         className="bg-purple_Dark hidden  md:flex text-textwhite w-40 h-12 rounded-3xl mr-1 text-sm font-bold hover:bg-purple_Light "
       >
         + Add new Task
       </Button>
       <Button
-        onClick={() => onOpen("createNewTask")}
+        onClick={() => onOpen("createNewTask", {cols})}
         className="md:hidden flex place-content-center bg-purple_Dark text-textwhite w-12 h-8 rounded-3xl mr-2  text-md font-bold hover:bg-purple_Light "
       >
         +
@@ -36,11 +40,11 @@ export const HeaderActions = () => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-46 p-4 bg-white dark:bg-almost_Dark">
           <DropdownMenuGroup>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onOpen("editBoard")}>
               <AiOutlineEdit className="mr-2 h-4 w-4 text-textgray" />
               <span className="text-textgray">Edit Board</span>
             </DropdownMenuItem>
-            <DropdownMenuItem>
+            <DropdownMenuItem onClick={() => onOpen("deleteBoard")}>
               <AiOutlineDelete className="mr-2 h-4 w-4 text-_red" />
               <span className="text-_red">Delete Board</span>
             </DropdownMenuItem>

@@ -7,7 +7,7 @@ export async function POST(request: Request) {
   const currentUser = await getCurrentUser();
 
   if (!currentUser) {
-    return NextResponse.error();
+    return new NextResponse("Unauthorized", { status: 401 });
   }
 
   const body = await request.json();
@@ -24,7 +24,7 @@ export async function POST(request: Request) {
   await db.column.createMany({
     data: columns.map((col: string) => ({
         name: col,
-        boardId: board.id
+        boardId: board.id,
     }))
   })
 
