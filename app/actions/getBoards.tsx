@@ -20,6 +20,7 @@ export default async function getBoards(params: Props) {
     const safeBoards = boards.map((board) => ({
       ...board,
       createdAt: board.createdAt.toISOString(),
+      updatedAt: board.updatedAt.toISOString(),
     }));
     return safeBoards;
   } catch (error: any) {

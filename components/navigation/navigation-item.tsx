@@ -31,7 +31,7 @@ export const NavigationItem = ({ id, name }: NavigationItemProps) => {
                   } rounded-r-3xl rounded-br-3xl flex items-center gap-4 h-12`}
     >
       <Image src="/assets/icon-board.svg" height="16" alt="" width="16" />
-      <span className="overflow-hidden whitespace-nowrap text-ellipsis max-w-: 12.5rem">
+      <span className="overflow-hidden whitespace-nowrap text-ellipsis max-w-[10rem]">
         {name}
       </span>
     </Link>
