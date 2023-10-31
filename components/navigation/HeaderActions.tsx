@@ -45,7 +45,7 @@ export const HeaderActions = ({cols, board}: TProps) => {
               <AiOutlineEdit className="mr-2 h-4 w-4 text-textgray" />
               <span className="text-textgray">Edit Board</span>
             </DropdownMenuItem>
-            <DropdownMenuItem onClick={() => onOpen("deleteBoard")}>
+            <DropdownMenuItem onClick={() => onOpen("deleteBoard", {board})}>
               <AiOutlineDelete className="mr-2 h-4 w-4 text-_red" />
               <span className="text-_red">Delete Board</span>
             </DropdownMenuItem>

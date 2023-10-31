@@ -6,6 +6,7 @@ import ClientOnly from "@/components/ClientOnly";
 import { CreateNewBoard } from "@/components/modals/CreateNewBoard";
 import { CreateTask } from "@/components/modals/CreateTask";
 import { EditBoard } from "@/components/modals/EditBoard";
+import { DeleteModal } from "@/components/modals/DeleteModal";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,6 +34,7 @@ export default async function RootLayout({
             <CreateNewBoard/>
             <CreateTask/>
             <EditBoard/>
+            <DeleteModal/>
           </ClientOnly>
         </ThemeProvider>
       </body>

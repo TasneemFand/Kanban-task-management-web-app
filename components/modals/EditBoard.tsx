@@ -14,10 +14,9 @@ import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { Label } from "../ui/label";
 import { AiOutlineClose } from "react-icons/ai";
 import { useEffect, useState } from "react";
-import { SafeCols } from "@/types";
 import qs from "query-string";
 import axios from "axios";
-import { isEmpty, isEqual, every, isNil, some } from "lodash";
+import { isEmpty, isEqual, some } from "lodash";
 
 type cols = {
   id: string;
