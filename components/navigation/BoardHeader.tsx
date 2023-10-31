@@ -13,8 +13,8 @@ type TProps = {
 export const BoardHeader = async ({ boardName }: TProps) => {
   const currentUser = await getCurrentUser();
   const boards = await getBoards({ userId: currentUser?.id });
-  const currentBoardId = boards?.filter((board) => board.name === boardName)?.[0].id;
-  const cols = await getColumns({boardId: currentBoardId });
+  const currentBoard = boards?.filter((board) => board.name === boardName)?.[0];
+  const cols = await getColumns({ boardId: currentBoard?.id });
 
   return (
     <div className="flex items-center p-6 gap-4 w-full max-sm:py-6 max-sm:px-2 max-sm:gap-2 max-[360px]:flex-col">
@@ -34,7 +34,7 @@ export const BoardHeader = async ({ boardName }: TProps) => {
         </span>
       </p>
       <div className="ml-auto flex items-center max-[360px]:ml-0">
-        <HeaderActions  cols={cols} />
+        <HeaderActions cols={cols} board={currentBoard} />
       </div>
     </div>
   );

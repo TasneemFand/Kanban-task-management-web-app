@@ -10,12 +10,13 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "../ui/dropdown-menu";
-import { SafeCols } from "@/types";
+import { SafeBoard, SafeCols } from "@/types";
 
 type TProps = {
     cols: SafeCols[] | null;
+    board: SafeBoard | null | undefined;
 }
-export const HeaderActions = ({cols}: TProps) => {
+export const HeaderActions = ({cols, board}: TProps) => {
   const { onOpen } = useModal();
   return (
     <>
@@ -40,7 +41,7 @@ export const HeaderActions = ({cols}: TProps) => {
         </DropdownMenuTrigger>
         <DropdownMenuContent className="w-46 p-4 bg-white dark:bg-almost_Dark">
           <DropdownMenuGroup>
-            <DropdownMenuItem onClick={() => onOpen("editBoard")}>
+            <DropdownMenuItem onClick={() => onOpen("editBoard", {cols, board})}>
               <AiOutlineEdit className="mr-2 h-4 w-4 text-textgray" />
               <span className="text-textgray">Edit Board</span>
             </DropdownMenuItem>

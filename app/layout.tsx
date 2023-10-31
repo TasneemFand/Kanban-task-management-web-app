@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/providers/theme-provider";
 import ClientOnly from "@/components/ClientOnly";
 import { CreateNewBoard } from "@/components/modals/CreateNewBoard";
 import { CreateTask } from "@/components/modals/CreateTask";
+import { EditBoard } from "@/components/modals/EditBoard";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -31,6 +32,7 @@ export default async function RootLayout({
           <ClientOnly>
             <CreateNewBoard/>
             <CreateTask/>
+            <EditBoard/>
           </ClientOnly>
         </ThemeProvider>
       </body>
