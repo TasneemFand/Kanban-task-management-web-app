@@ -19,7 +19,6 @@ export async function POST(request: Request) {
 
   const body = await request.json();
   const { title, status, subtasks, description } = body;
-  const filteredSubTasks = subtasks.filter((subTask: any) => subTask);
 
   const col = await db.column.findFirst({
     where: {
@@ -46,9 +45,9 @@ export async function POST(request: Request) {
                 description,
                 subtasks: {
                   createMany: {
-                    data: filteredSubTasks.map((sub: any) => {
+                    data: subtasks.map((sub: any) => {
                       return {
-                        title: sub,
+                        title: sub.value,
                         isCompleted: false,
                       };
                     }),

@@ -6,6 +6,7 @@ var bcrypt = require('bcryptjs');
 export async function POST(
   request: Request, 
 ) {
+  try {
   const body = await request.json();
   const { 
     email,
@@ -24,4 +25,7 @@ export async function POST(
   });
 
   return NextResponse.json(user);
+} catch(error) {
+  return new NextResponse("Internal Error", { status: 500 });
+}
 }

@@ -5,7 +5,7 @@ import { AiFillGithub } from "react-icons/ai";
 import { signIn } from "next-auth/react";
 import { FcGoogle } from "react-icons/fc";
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+import { toast, Toaster} from "react-hot-toast";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import {
   Card,
@@ -45,7 +45,8 @@ const RegisterModal = () => {
         router.push("/sign-in");
       })
       .catch((error) => {
-        toast.error(error);
+        console.log(error, 'error')
+        toast.error('error');
       })
       .finally(() => {
         setIsLoading(false);
@@ -151,6 +152,8 @@ const RegisterModal = () => {
         <CardFooter className="flex justify-center w-full">
           {FooterContent}
         </CardFooter>
+        <Toaster />
+
       </Card>
   );
 };

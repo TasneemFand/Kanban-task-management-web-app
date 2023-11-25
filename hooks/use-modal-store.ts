@@ -1,13 +1,15 @@
-import { SafeBoard, SafeCols } from "@/types";
+import { SafeBoard, SafeCols, safeSubTasks, safeTasks } from "@/types";
 import { create } from "zustand";
 
-export type ModalType =  'createNewBoard' | 'createNewTask' | 'editBoard' | 'deleteBoard';
+export type ModalType =  'createNewBoard' | 'createNewTask' | 'editBoard' | 'deleteBoard' | 'viewTask' | 'editTask' | 'deleteTask';
 
 interface ModalData {
 	apiUrl?: string;
 	query?: Record<string, any>;
 	cols?: SafeCols[] | null;
 	board?: SafeBoard | null;
+	subTasks?: safeSubTasks [] | null;
+	task?: safeTasks | null;
 }
 interface ModalStore {
 	type: ModalType | null;

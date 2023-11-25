@@ -1,4 +1,4 @@
-import { Board, Column, User } from "@prisma/client";
+import { Board, Column, SubTask, Task, User } from "@prisma/client";
 
 export type SafeUser = Omit<
   User,
@@ -23,3 +23,14 @@ export type SafeCols = Omit<Column, "createdAt" | "updatedAt"> & {
   createdAt: string;
   updatedAt: string;
 };
+
+export type safeTasks = Omit<Task, "createdAt" | "updatedAt"> & {
+  createdAt: string;
+  updatedAt: string;
+};
+
+export type safeSubTasks = Omit<SubTask, "createdAt" | "updatedAt"> & {
+  createdAt: string;
+  updatedAt: string;
+};
+

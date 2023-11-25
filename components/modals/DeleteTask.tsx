@@ -7,16 +7,16 @@ import {
   DialogTitle,
 } from "@/components/ui/dialog";
 import { Button } from "../ui/button";
-import { useParams, useRouter } from "next/navigation";
+import { useRouter } from "next/navigation";
 import { useModal } from "@/hooks/use-modal-store";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import axios from "axios";
 import qs from "query-string";
 
-export const DeleteModal = () => {
+export const DeleteTask = () => {
   const { isOpen, onClose, type, data } = useModal();
+  const {task} = data;
   const router = useRouter();
-  const params = useParams();
   const {
     handleSubmit,
     formState: { isSubmitting },
@@ -25,9 +25,9 @@ export const DeleteModal = () => {
   const onSubmit: SubmitHandler<FieldValues> = async (vals) => {
     try {
       const url = qs.stringifyUrl({
-        url: `/api/boards/${params?.boardId}`,
+        url: `/api/tasks/${task?.id}`,
         query: {
-          boardId: params?.boardId,
+          taskId: task?.id,
         },
       });
       await axios.delete(url);
@@ -39,19 +39,18 @@ export const DeleteModal = () => {
   };
 
   return (
-    <Dialog open={isOpen && type === "deleteBoard"} onOpenChange={onClose}>
+    <Dialog open={isOpen && type === "deleteTask"} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[500px] bg-white dark:bg-almost_Dark  font-bold text-lg/6 p-8">
         <DialogHeader>
           <DialogTitle className="text-_red">
-            Delete this {data.board?.name} ?
+            Delete this Task?
           </DialogTitle>
         </DialogHeader>
         <form role="form" onSubmit={handleSubmit(onSubmit)}>
           <div className="flex w-full flex-col gap-6">
             <p className="text-textgray">
-            Are you sure you want to delete the ‘{data.board?.name}’ board? This
-            action will remove all columns and tasks and cannot be reversed.{" "}
-
+            Are you sure you want to delete the ‘{task?.title}’ task? This
+            action will remove all its subtasks and cannot be reversed.{" "}
             </p>
             <div className="flex gap-4">
               <Button

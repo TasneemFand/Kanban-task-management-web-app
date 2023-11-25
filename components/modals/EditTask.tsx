@@ -8,15 +8,12 @@ import {
   SubmitHandler,
   useForm,
 } from "react-hook-form";
-import { useParams, useRouter } from "next/navigation";
-import axios from "axios";
+import { Button } from "../ui/button";
 import { Label } from "../ui/label";
 import { Input } from "../ui/input";
 import { Textarea } from "../ui/textarea";
-import { useState } from "react";
-import { Button } from "../ui/button";
+import { useEffect, useState } from "react";
 import { AiOutlineClose } from "react-icons/ai";
-import qs from "query-string";
 import {
   Select,
   SelectContent,
@@ -27,51 +24,59 @@ import {
   SelectValue,
 } from "../ui/select";
 
-export const CreateTask = () => {
+export const EditTask = () => {
   const { isOpen, onClose, type, data } = useModal();
-
-  const [subtasks, setSubtasks] = useState([
-    { id: 1, value: "" },
-    { id: 2, value: "" },
-  ]);
-
+  const [subtasks, setSubtasks] = useState(data.subTasks);
   const {
     register,
     handleSubmit,
-    control,
-    reset,
     setValue,
-    formState: { errors },
+    reset,
+    control,
+    formState: { isDirty, isSubmitting },
   } = useForm<FieldValues>();
-  const router = useRouter();
-  const params = useParams();
 
-  const onSubmit: SubmitHandler<FieldValues> = async (data) => {
-    try {
-      const url = qs.stringifyUrl({
-        url: "/api/tasks",
-        query: {
-            boardId: params?.boardId,
-        },
-      });
-      await axios.post(url, {
-        ...data,
-        subtasks: subtasks
-      });
-      onClose();
-      reset();
-      router.refresh();
-    } catch (error) {
-      console.log(error);
-    }
+  const onSubmit: SubmitHandler<FieldValues> = async (vals) => {
+    // try {
+    //   const url = qs.stringifyUrl({
+    //     url: `/api/boards/${params?.boardId}`,
+    //     query: {
+    //       boardId: params?.boardId,
+    //     },
+    //   });
+    //   await axios.patch(url, values);
+    //   onClose();
+    //   reset();
+    //   router.refresh();
+    // } catch (error) {
+    //   console.log(error);
+    // }
   };
 
-  const handleChangeInput = (id: number, value: string) => {
-    const updatedSubtasks = subtasks.map((task) => {
+  useEffect(() => {
+    if (data.subTasks) {
+      setSubtasks(data.subTasks);
+    }
+  }, [data.subTasks]);
+
+  useEffect(() => {
+    if (subtasks) {
+      setValue("subtasks", subtasks);
+    }
+  }, [subtasks]);
+
+   useEffect(() => {
+    if (data.task) {
+      setValue("status", data.task.columnId);
+    }
+  }, [data.task]);
+
+  const handleChangeInput = (id: string, value: string) => {
+    const updatedSubtasks = subtasks?.map((task) => {
       if (task.id === id) {
         return {
           ...task,
-          value: value,
+          title: value,
         };
       }
       return task;
@@ -80,21 +85,22 @@ export const CreateTask = () => {
   };
 
   const handleAddSubtask = () => {
-    const newId = subtasks.length + 1;
-    const newSubtask = { id: newId, value: "" };
+    const newId = subtasks?.length! + 1;
+    const newSubtask = { id: newId, title: "" };
     setSubtasks([...subtasks, newSubtask]);
   };
 
-  const handleRemoveSubtask = (id: number) => {
-    const newSubtasks = subtasks.filter((task) => task.id !== id);
+  const handleRemoveSubtask = (id: string) => {
+    const newSubtasks = subtasks?.filter((task) => task.id !== id);
     setSubtasks(newSubtasks);
   };
+
   return (
-    <Dialog open={isOpen && type === "createNewTask"} onOpenChange={onClose}>
+    <Dialog open={isOpen && type === "editTask"} onOpenChange={onClose}>
       <DialogContent className="sm:max-w-[425px] bg-white dark:bg-almost_Dark  font-bold text-lg/6 p-8">
         <DialogHeader>
           <DialogTitle className="text-textdark dark:text-textwhite">
-            Add New Task
+            Edit Task
           </DialogTitle>
         </DialogHeader>
         <form role="form" onSubmit={handleSubmit(onSubmit)}>
@@ -110,8 +116,8 @@ export const CreateTask = () => {
                 {...register("title", { required: true })}
                 id="title"
                 name="title"
-                placeholder="e.g. Take coffee break"
                 type="text"
+                defaultValue={data.task?.title}
                 className="bg-transparent border-border_lightBlue text-textdark dark:border-border_mediumGray dark:text-textwhite"
               />
             </div>
@@ -128,37 +134,55 @@ export const CreateTask = () => {
                 id="description"
                 name="description"
                 rows={4}
+                defaultValue={data.task?.description || ""}
                 className="bg-transparent border-border_lightBlue text-textdark dark:border-border_mediumGray dark:text-textwhite"
               />
             </div>
+
             <div className="flex flex-col space-y-1.5">
               <fieldset>
                 <legend className="font-bold text-xs text-textgray dark:text-textwhite mb-2">
-                  Subtasks
+                  SubTasks
                 </legend>
-                {subtasks.map((subTask) => (
+                {subtasks?.map((subTask) => (
                   <div
                     key={subTask.id}
                     className="flex items-center gap-2 mb-2"
                   >
-                    <Input
-                      {...register(`subtasks.${subTask.id}`, {
-                        required: true,
-                      })}
-                      key={subTask.id}
-                      type="text"
-                      name={`subtasks${subTask.id}`}
-                      id={`subtasks${subTask.id}`}
-                      value={subTask.value}
-                      placeholder="e.g. Make coffee"
-                      onChange={(ev) => {
-                        setValue(
-                          `subtasks.${subTask.id}`,
-                          ev.currentTarget.value
+                    <Controller
+                      name="subtasks"
+                      control={control}
+                      render={({ field }) => {
+                        const task = field.value?.filter((value) => value.id === subTask.id)?.[0];
+                        return (
+                          <Input
+                            key={task.id}
+                            type="text"
+                            name={task.id}
+                            id={task.id}
+                            value={task.title}
+                            placeholder="e.g. Make coffee"
+                            onChange={(ev) => {
+                              setValue(
+                                `subtasks.${subTask.id}`,
+                                ev.currentTarget.value
+                              );
+                              field.onChange([
+                                ...field.value,
+                                {
+                                  ...task,
+                                },
+                              ]);
+                              handleChangeInput(
+                                task.id,
+                                ev.currentTarget.value
+                              );
+                            }}
+                            className="bg-transparent border-border_lightBlue text-textdark dark:border-border_mediumGray dark:text-textwhite"
+                          />
                         );
-                        handleChangeInput(subTask.id, ev.currentTarget.value);
                       }}
-                      className="bg-transparent border-border_lightBlue text-textdark dark:border-border_mediumGray dark:text-textwhite"
+                      rules={{ required: true }}
                     />
                     <Button
                       className="flex items-center bg-transparent hover:bg-transparent dark:text-textgray text-textdark"
@@ -211,9 +235,10 @@ export const CreateTask = () => {
             </div>
             <Button
               type="submit"
+              disabled={isSubmitting || !isDirty}
               className="bg-[#635FC7] text-[#FFF] w-full transition hover:opacity-80 hover:bg-[#635FC7]"
             >
-              Create Task
+              Save Changes
             </Button>
           </div>
         </form>

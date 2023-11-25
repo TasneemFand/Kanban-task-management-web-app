@@ -7,6 +7,9 @@ import { CreateNewBoard } from "@/components/modals/CreateNewBoard";
 import { CreateTask } from "@/components/modals/CreateTask";
 import { EditBoard } from "@/components/modals/EditBoard";
 import { DeleteModal } from "@/components/modals/DeleteModal";
+import { ViewTask } from "@/components/modals/ViewTask";
+import { EditTask } from "@/components/modals/EditTask";
+import { DeleteTask } from "@/components/modals/DeleteTask";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -35,6 +38,9 @@ export default async function RootLayout({
             <CreateTask/>
             <EditBoard/>
             <DeleteModal/>
+            <ViewTask/>
+            <EditTask/>
+            <DeleteTask/>
           </ClientOnly>
         </ThemeProvider>
       </body>

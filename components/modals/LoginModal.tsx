@@ -1,7 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useState } from "react";
-import { toast } from "react-hot-toast";
+import { Toaster, toast } from "react-hot-toast";
 import { signIn } from "next-auth/react";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { FcGoogle } from "react-icons/fc";
@@ -49,7 +49,8 @@ const LogInModal = () => {
       }
     }).catch((error) => 
     {
-        console.log(error,'error')
+      toast.error("error");
+      console.log(error,'error')
     });
   };
   useEffect(() => {
@@ -86,7 +87,7 @@ const LogInModal = () => {
       text-neutral-500 text-center mt-4 font-light"
       >
         <p>
-          First time using Airbnb?
+          First time using Kanban?
           <span
             onClick={onToggle}
             className="
@@ -143,6 +144,7 @@ const LogInModal = () => {
         <CardFooter className="flex justify-center w-full">
           {FooterContent}
         </CardFooter>
+        <Toaster/>
       </Card>
   );
 };
