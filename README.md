@@ -18,3 +18,17 @@ Users should be able to:
 - **Bonus**: Allow users to drag and drop tasks to change their status and re-order them in a column
 - **Bonus**: Keep track of any changes, even after refreshing the browser!
 - **Bonus**: Build this project as a full-stack application
+
+### Built with
+ - Semantic HTML5 markup
+ - CSS custom properties
+ - Typescript
+ - Nextjs
+ - Next Auth
+ - TailwindCSS
+ - Shadcn-ui
+ - Zustand
+ - Prisma
+ - mongodb
+ - react-hot-toast
+ - react-hook-form
