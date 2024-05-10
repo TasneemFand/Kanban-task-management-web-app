@@ -53,7 +53,7 @@ export async function PATCH(
       name: col.name,
     }));
 
-    const createdCols = columns.filter((col) => {
+    const createdCols = columns.filter((col: { id: string; }) => {
       return !comparedCols?.some((col2) => {
         return col.id === col2.id;
       });
@@ -61,13 +61,13 @@ export async function PATCH(
 
 
     const deletedCols = comparedCols?.filter((col) => {
-      return !columns?.some((col2) => {
+      return !columns?.some((col2: { id: string; }) => {
         return col.id === col2.id;
       });
     });
 
-    const updatedCols = columns.filter((col) => {
-      return !createdCols?.some((col2) => {
+    const updatedCols = columns.filter((col: { id: any; }) => {
+      return !createdCols?.some((col2: { id: any; }) => {
         return col.id === col2.id;
       });
     });
@@ -100,7 +100,7 @@ export async function PATCH(
       });
     });
 
-    updatedCols?.forEach(async (col) => {
+    updatedCols?.forEach(async (col: { id: any; name: any; }) => {
       await db.column.update({
         where: {
           id: col.id,

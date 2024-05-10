@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import {
@@ -93,7 +94,7 @@ export const EditBoard = () => {
     const values = { name: vals.name, columns: [] };
     if (Dirty) {
       if (!isEqual(data.cols, columns)) {
-        values.columns = values.columns.concat(columns);
+        values.columns = values.columns.concat(columns as any);
       }
       if (some(values, isEmpty)) {
         return;

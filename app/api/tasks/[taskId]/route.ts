@@ -62,7 +62,7 @@ export async function PATCH(
       },
     });
 
-    subtasks?.forEach(async (task) => {
+    subtasks?.forEach(async (task: { id: any; isCompleted: any; }) => {
       await db.subTask.update({
         where: {
           id: task.id,

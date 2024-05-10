@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 "use client";
 
 import { useModal } from "@/hooks/use-modal-store";
@@ -85,9 +86,12 @@ export const EditTask = () => {
   };
 
   const handleAddSubtask = () => {
-    const newId = subtasks?.length! + 1;
-    const newSubtask = { id: newId, title: "" };
-    setSubtasks([...subtasks, newSubtask]);
+    const newId = subtasks?.length ?  subtasks?.length + 1 : 0;
+    const newSubtask = { id: String(newId), title: "" };
+    if(subtasks)
+    setSubtasks([...subtasks, {...newSubtask, taskId: data?.task?.id!, isCompleted: false, createdAt: "", updatedAt: "" }]);
+  else 
+  setSubtasks([{...newSubtask, taskId: data?.task?.id!, isCompleted: false, createdAt: "", updatedAt: ""}])
   };
 
   const handleRemoveSubtask = (id: string) => {
@@ -153,7 +157,7 @@ export const EditTask = () => {
                       name="subtasks"
                       control={control}
                       render={({ field }) => {
-                        const task = field.value?.filter((value) => value.id === subTask.id)?.[0];
+                        const task = field.value?.filter((value: { id: string; }) => value.id === subTask.id)?.[0];
                         return (
                           <Input
                             key={task.id}
