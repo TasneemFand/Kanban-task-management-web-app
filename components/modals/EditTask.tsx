@@ -24,10 +24,14 @@ import {
   SelectTrigger,
   SelectValue,
 } from "../ui/select";
+import axios from "axios";
+import { useRouter } from "next/navigation";
+
 
 export const EditTask = () => {
   const { isOpen, onClose, type, data } = useModal();
   const [subtasks, setSubtasks] = useState(data.subTasks);
+  const router = useRouter();
   const {
     register,
     handleSubmit,
@@ -38,20 +42,17 @@ export const EditTask = () => {
   } = useForm<FieldValues>();
 
   const onSubmit: SubmitHandler<FieldValues> = async (vals) => {
-    // try {
-    //   const url = qs.stringifyUrl({
-    //     url: `/api/boards/${params?.boardId}`,
-    //     query: {
-    //       boardId: params?.boardId,
-    //     },
-    //   });
-    //   await axios.patch(url, values);
-    //   onClose();
-    //   reset();
-    //   router.refresh();
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    try {
+      await axios.patch(`/api/tasks/${data?.task?.id}`, {
+        status: vals.status,
+        subtasks: vals.subtasks,
+      });
+      onClose();
+      reset();
+      router.refresh();
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   useEffect(() => {
