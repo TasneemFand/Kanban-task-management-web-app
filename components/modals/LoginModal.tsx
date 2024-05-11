@@ -35,7 +35,6 @@ const LogInModal = () => {
     setIsLoading(true);
     signIn('credentials', {
         ...data,
-        callbackUrl: 'http://127.0.0.1:3000/user/dashboard',
         redirect: false,
     }).then((callback) => {
       setIsLoading(false);
